@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:html/parser.dart' as htmlParser;
+import 'package:html/parser.dart' as html_parser;
 import 'package:uno/uno.dart';
 
 Future<Map<String, dynamic>> scrapeChaptersList(String bookUrl) async {
@@ -12,7 +12,7 @@ Future<Map<String, dynamic>> scrapeChaptersList(String bookUrl) async {
   final chapterMap = <String, dynamic>{};
 
   if (response.status == 200) {
-    final document = htmlParser.parse(response.data);
+    final document = html_parser.parse(response.data);
 
     final itemDiv = document.querySelector('div.item.clearfix');
     final list = itemDiv?.querySelector('ul.listChapter');
