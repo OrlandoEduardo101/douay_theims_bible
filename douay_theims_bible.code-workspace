@@ -9,6 +9,9 @@
 		{
 			"path": ".",
 			"name": "root"
+		},
+		{
+			"path": "database"
 		}
 	]
 }

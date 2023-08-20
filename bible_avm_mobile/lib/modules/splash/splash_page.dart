@@ -26,6 +26,7 @@ class _SplashPageState extends State<SplashPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              StreamBuilder(stream: stream, builder: builder)
               LinearProgressIndicator(),
             ],
           ),

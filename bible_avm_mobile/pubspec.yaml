@@ -38,6 +38,8 @@ dependencies:
   ave_maria_scraping:
     path: ../ave_maria_scraping
   flutter_modular: ^6.0.4+1
+  database:
+    path: ../database
 
 dev_dependencies:
   flutter_test:
