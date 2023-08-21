@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:bible_avm_mobile/modules/verses/verse_entity.dart';
 import 'package:flutter/foundation.dart';
+
+import 'package:bible_avm_mobile/modules/verses/verse_entity.dart';
 
 class CharptersEntity {
   final int id;
@@ -9,6 +10,7 @@ class CharptersEntity {
   final int bookId;
   final String charpterNumber;
   final String charpterUrl;
+  final String bookName;
   final List<VerseEntity> verses;
 
   CharptersEntity({
@@ -17,6 +19,7 @@ class CharptersEntity {
     required this.bookId,
     required this.charpterNumber,
     required this.charpterUrl,
+    required this.bookName,
     required this.verses,
   });
 
@@ -26,6 +29,7 @@ class CharptersEntity {
     int? bookId,
     String? charpterNumber,
     String? charpterUrl,
+    String? bookName,
     List<VerseEntity>? verses,
   }) {
     return CharptersEntity(
@@ -34,6 +38,7 @@ class CharptersEntity {
       bookId: bookId ?? this.bookId,
       charpterNumber: charpterNumber ?? this.charpterNumber,
       charpterUrl: charpterUrl ?? this.charpterUrl,
+      bookName: bookName ?? this.bookName,
       verses: verses ?? this.verses,
     );
   }
@@ -45,6 +50,7 @@ class CharptersEntity {
       'bookId': bookId,
       'charpterNumber': charpterNumber,
       'charpterUrl': charpterUrl,
+      'bookName': bookName,
       'verses': verses.map((x) => x.toMap()).toList(),
     };
   }
@@ -56,6 +62,7 @@ class CharptersEntity {
       bookId: map['bookId']?.toInt() ?? 0,
       charpterNumber: map['charpterNumber'] ?? '',
       charpterUrl: map['charpterUrl'] ?? '',
+      bookName: map['bookName'] ?? '',
       verses: List<VerseEntity>.from(map['verses']?.map((x) => VerseEntity.fromMap(x))),
     );
   }
@@ -66,29 +73,31 @@ class CharptersEntity {
 
   @override
   String toString() {
-    return 'CharptersEntity(id: $id, testamentId: $testamentId, bookId: $bookId, charpterNumber: $charpterNumber, charpterUrl: $charpterUrl, verses: $verses)';
+    return 'CharptersEntity(id: $id, testamentId: $testamentId, bookId: $bookId, charpterNumber: $charpterNumber, charpterUrl: $charpterUrl, bookName: $bookName, verses: $verses)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-
+  
     return other is CharptersEntity &&
-        other.id == id &&
-        other.testamentId == testamentId &&
-        other.bookId == bookId &&
-        other.charpterNumber == charpterNumber &&
-        other.charpterUrl == charpterUrl &&
-        listEquals(other.verses, verses);
+      other.id == id &&
+      other.testamentId == testamentId &&
+      other.bookId == bookId &&
+      other.charpterNumber == charpterNumber &&
+      other.charpterUrl == charpterUrl &&
+      other.bookName == bookName &&
+      listEquals(other.verses, verses);
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-        testamentId.hashCode ^
-        bookId.hashCode ^
-        charpterNumber.hashCode ^
-        charpterUrl.hashCode ^
-        verses.hashCode;
+      testamentId.hashCode ^
+      bookId.hashCode ^
+      charpterNumber.hashCode ^
+      charpterUrl.hashCode ^
+      bookName.hashCode ^
+      verses.hashCode;
   }
 }

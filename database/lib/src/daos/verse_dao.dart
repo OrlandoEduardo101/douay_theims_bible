@@ -1,7 +1,5 @@
 import 'package:database/database.dart';
 
-import '../models/verse_model.dart';
-
 @dao
 abstract class VerseDao {
   @Query('SELECT * FROM verses')
@@ -11,13 +9,16 @@ abstract class VerseDao {
   Future<VerseModel?> getById(int id);
 
   @Query('SELECT * FROM verses WHERE testamentId = :testamentId')
-  Future<VerseModel?> getByTestamentId(int testamentId);
+  Future<List<VerseModel>> getByTestamentId(int testamentId);
 
   @Query('SELECT * FROM verses WHERE bookId = :bookId')
-  Future<VerseModel?> getBybookId(int bookId);
+  Future<List<VerseModel>> getBybookId(int bookId);
 
   @Query('SELECT * FROM verses WHERE charpterId = :charpterId')
-  Future<VerseModel?> getBycharpterId(int charpterId);
+  Future<List<VerseModel>> getBycharpterId(int charpterId);
+
+  @Insert(onConflict: OnConflictStrategy.replace)
+  Future<int> insertVerse(VerseModel verseModel);
 
   @Query('DELETE FROM verses WHERE id = :id')
   Future<void> deleteById(int id);

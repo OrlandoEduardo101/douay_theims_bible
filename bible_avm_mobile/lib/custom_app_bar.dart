@@ -4,16 +4,18 @@ import 'theme_provider.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final ThemeProvider themeProvider;
+  final String title;
 
   const CustomAppBar({
     Key? key,
     required this.themeProvider,
+    this.title = '',
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      title: const Text('Flutter Demo'),
+      title: Text(title),
       actions: [
         ValueListenableBuilder<bool>(
           valueListenable: themeProvider.isDarkModeNotifier,

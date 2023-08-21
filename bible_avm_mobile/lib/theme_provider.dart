@@ -11,5 +11,6 @@ class ThemeProvider {
     _isDarkModeNotifier.value = value;
   }
 
-  ThemeData get currentTheme => _isDarkModeNotifier.value ? ThemeData.dark() : ThemeData.light();
+  ThemeData get currentTheme =>
+      _isDarkModeNotifier.value ? ThemeData.dark(useMaterial3: true) : ThemeData.light(useMaterial3: true);
 }

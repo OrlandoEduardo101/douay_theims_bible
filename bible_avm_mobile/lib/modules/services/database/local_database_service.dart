@@ -1,4 +1,5 @@
 import 'package:database/database.dart';
+import 'package:flutter/foundation.dart';
 
 import 'i_local_databse_service.dart';
 
@@ -9,14 +10,18 @@ typedef VerseModelType = VerseModel;
 
 class LocalDatabaseService implements ILocalDatabaseService {
   late final AppDatabase _instance;
+  final ValueNotifier<bool> _isInitialized = ValueNotifier(false);
 
   LocalDatabaseService() {
-    initalizeDatabase();
+    // initalizeDatabase();
   }
 
   @override
   Future<void> initalizeDatabase() async {
-    _instance = await $FloorAppDatabase.databaseBuilder('app_database').addMigrations([]).build();
+    if (!(_isInitialized.value)) {
+      _instance = await $FloorAppDatabase.databaseBuilder('app_database').addMigrations([]).build();
+      _isInitialized.value = true;
+    }
   }
 
   @override

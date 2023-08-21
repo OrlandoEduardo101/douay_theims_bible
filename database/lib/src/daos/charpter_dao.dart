@@ -11,10 +11,13 @@ abstract class CharpterDao {
   Future<CharpterModel?> getById(int id);
 
   @Query('SELECT * FROM charpters WHERE testamentId = :testamentId')
-  Future<CharpterModel?> getByTestamentId(int testamentId);
+  Future<List<CharpterModel>> getByTestamentId(int testamentId);
 
   @Query('SELECT * FROM charpters WHERE bookId = :bookId')
-  Future<CharpterModel?> getBybookId(int bookId);
+  Future<List<CharpterModel>> getBybookId(int bookId);
+
+  @Insert(onConflict: OnConflictStrategy.replace)
+  Future<int> insertCharpter(CharpterModel charpterModel);
 
   @Query('DELETE FROM charpters WHERE id = :id')
   Future<void> deleteById(int id);

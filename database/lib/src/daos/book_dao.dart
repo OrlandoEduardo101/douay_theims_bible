@@ -11,7 +11,10 @@ abstract class BookDao {
   Future<BookModel?> getById(int id);
 
   @Query('SELECT * FROM books WHERE testamentId = :testamentId')
-  Future<BookModel?> getByTestamentId(int testamentId);
+  Future<List<BookModel>> getByTestamentId(int testamentId);
+
+  @Insert(onConflict: OnConflictStrategy.replace)
+  Future<int> insertBook(BookModel book);
 
   @Query('DELETE FROM books WHERE id = :id')
   Future<void> deleteById(int id);

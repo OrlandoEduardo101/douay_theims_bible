@@ -130,13 +130,22 @@ class _$TestamentDao extends TestamentDao {
   _$TestamentDao(
     this.database,
     this.changeListener,
-  ) : _queryAdapter = QueryAdapter(database);
+  )   : _queryAdapter = QueryAdapter(database),
+        _testamentModelInsertionAdapter = InsertionAdapter(
+            database,
+            'testaments',
+            (TestamentModel item) => <String, Object?>{
+                  'id': item.id,
+                  'testamentName': item.testamentName
+                });
 
   final sqflite.DatabaseExecutor database;
 
   final StreamController<String> changeListener;
 
   final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<TestamentModel> _testamentModelInsertionAdapter;
 
   @override
   Future<List<TestamentModel>> getAllTestaments() async {
@@ -165,19 +174,36 @@ class _$TestamentDao extends TestamentDao {
   Future<void> deleteTableContent() async {
     await _queryAdapter.queryNoReturn('DELETE FROM testaments');
   }
+
+  @override
+  Future<int> insertTestament(TestamentModel testamentModel) {
+    return _testamentModelInsertionAdapter.insertAndReturnId(
+        testamentModel, OnConflictStrategy.replace);
+  }
 }
 
 class _$BookDao extends BookDao {
   _$BookDao(
     this.database,
     this.changeListener,
-  ) : _queryAdapter = QueryAdapter(database);
+  )   : _queryAdapter = QueryAdapter(database),
+        _bookModelInsertionAdapter = InsertionAdapter(
+            database,
+            'books',
+            (BookModel item) => <String, Object?>{
+                  'id': item.id,
+                  'testamentId': item.testamentId,
+                  'bookName': item.bookName,
+                  'bookUrl': item.bookUrl
+                });
 
   final sqflite.DatabaseExecutor database;
 
   final StreamController<String> changeListener;
 
   final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<BookModel> _bookModelInsertionAdapter;
 
   @override
   Future<List<BookModel>> getAllBooks() async {
@@ -201,8 +227,8 @@ class _$BookDao extends BookDao {
   }
 
   @override
-  Future<BookModel?> getByTestamentId(int testamentId) async {
-    return _queryAdapter.query('SELECT * FROM books WHERE testamentId = ?1',
+  Future<List<BookModel>> getByTestamentId(int testamentId) async {
+    return _queryAdapter.queryList('SELECT * FROM books WHERE testamentId = ?1',
         mapper: (Map<String, Object?> row) => BookModel(
             id: row['id'] as int?,
             bookName: row['bookName'] as String,
@@ -221,19 +247,37 @@ class _$BookDao extends BookDao {
   Future<void> deleteTableContent() async {
     await _queryAdapter.queryNoReturn('DELETE FROM books');
   }
+
+  @override
+  Future<int> insertBook(BookModel book) {
+    return _bookModelInsertionAdapter.insertAndReturnId(
+        book, OnConflictStrategy.replace);
+  }
 }
 
 class _$CharpterDao extends CharpterDao {
   _$CharpterDao(
     this.database,
     this.changeListener,
-  ) : _queryAdapter = QueryAdapter(database);
+  )   : _queryAdapter = QueryAdapter(database),
+        _charpterModelInsertionAdapter = InsertionAdapter(
+            database,
+            'charpters',
+            (CharpterModel item) => <String, Object?>{
+                  'id': item.id,
+                  'testamentId': item.testamentId,
+                  'bookId': item.bookId,
+                  'charpterNumber': item.charpterNumber,
+                  'charpterUrl': item.charpterUrl
+                });
 
   final sqflite.DatabaseExecutor database;
 
   final StreamController<String> changeListener;
 
   final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<CharpterModel> _charpterModelInsertionAdapter;
 
   @override
   Future<List<CharpterModel>> getAllcharpters() async {
@@ -259,8 +303,9 @@ class _$CharpterDao extends CharpterDao {
   }
 
   @override
-  Future<CharpterModel?> getByTestamentId(int testamentId) async {
-    return _queryAdapter.query('SELECT * FROM charpters WHERE testamentId = ?1',
+  Future<List<CharpterModel>> getByTestamentId(int testamentId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM charpters WHERE testamentId = ?1',
         mapper: (Map<String, Object?> row) => CharpterModel(
             id: row['id'] as int?,
             charpterNumber: row['charpterNumber'] as String,
@@ -271,8 +316,8 @@ class _$CharpterDao extends CharpterDao {
   }
 
   @override
-  Future<CharpterModel?> getBybookId(int bookId) async {
-    return _queryAdapter.query('SELECT * FROM charpters WHERE bookId = ?1',
+  Future<List<CharpterModel>> getBybookId(int bookId) async {
+    return _queryAdapter.queryList('SELECT * FROM charpters WHERE bookId = ?1',
         mapper: (Map<String, Object?> row) => CharpterModel(
             id: row['id'] as int?,
             charpterNumber: row['charpterNumber'] as String,
@@ -292,19 +337,38 @@ class _$CharpterDao extends CharpterDao {
   Future<void> deleteTableContent() async {
     await _queryAdapter.queryNoReturn('DELETE FROM charpters');
   }
+
+  @override
+  Future<int> insertCharpter(CharpterModel charpterModel) {
+    return _charpterModelInsertionAdapter.insertAndReturnId(
+        charpterModel, OnConflictStrategy.replace);
+  }
 }
 
 class _$VerseDao extends VerseDao {
   _$VerseDao(
     this.database,
     this.changeListener,
-  ) : _queryAdapter = QueryAdapter(database);
+  )   : _queryAdapter = QueryAdapter(database),
+        _verseModelInsertionAdapter = InsertionAdapter(
+            database,
+            'verses',
+            (VerseModel item) => <String, Object?>{
+                  'id': item.id,
+                  'charpterId': item.charpterId,
+                  'bookId': item.bookId,
+                  'testamentId': item.testamentId,
+                  'verseNumber': item.verseNumber,
+                  'verseText': item.verseText
+                });
 
   final sqflite.DatabaseExecutor database;
 
   final StreamController<String> changeListener;
 
   final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<VerseModel> _verseModelInsertionAdapter;
 
   @override
   Future<List<VerseModel>> getAllverses() async {
@@ -332,8 +396,9 @@ class _$VerseDao extends VerseDao {
   }
 
   @override
-  Future<VerseModel?> getByTestamentId(int testamentId) async {
-    return _queryAdapter.query('SELECT * FROM verses WHERE testamentId = ?1',
+  Future<List<VerseModel>> getByTestamentId(int testamentId) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM verses WHERE testamentId = ?1',
         mapper: (Map<String, Object?> row) => VerseModel(
             id: row['id'] as int?,
             verseNumber: row['verseNumber'] as String,
@@ -345,8 +410,8 @@ class _$VerseDao extends VerseDao {
   }
 
   @override
-  Future<VerseModel?> getBybookId(int bookId) async {
-    return _queryAdapter.query('SELECT * FROM verses WHERE bookId = ?1',
+  Future<List<VerseModel>> getBybookId(int bookId) async {
+    return _queryAdapter.queryList('SELECT * FROM verses WHERE bookId = ?1',
         mapper: (Map<String, Object?> row) => VerseModel(
             id: row['id'] as int?,
             verseNumber: row['verseNumber'] as String,
@@ -358,8 +423,8 @@ class _$VerseDao extends VerseDao {
   }
 
   @override
-  Future<VerseModel?> getBycharpterId(int charpterId) async {
-    return _queryAdapter.query('SELECT * FROM verses WHERE charpterId = ?1',
+  Future<List<VerseModel>> getBycharpterId(int charpterId) async {
+    return _queryAdapter.queryList('SELECT * FROM verses WHERE charpterId = ?1',
         mapper: (Map<String, Object?> row) => VerseModel(
             id: row['id'] as int?,
             verseNumber: row['verseNumber'] as String,
@@ -379,5 +444,11 @@ class _$VerseDao extends VerseDao {
   @override
   Future<void> deleteTableContent() async {
     await _queryAdapter.queryNoReturn('DELETE FROM verses');
+  }
+
+  @override
+  Future<int> insertVerse(VerseModel verseModel) {
+    return _verseModelInsertionAdapter.insertAndReturnId(
+        verseModel, OnConflictStrategy.replace);
   }
 }
