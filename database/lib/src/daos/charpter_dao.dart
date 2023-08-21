@@ -1,7 +1,5 @@
 import 'package:database/database.dart';
 
-import '../models/charpter_model.dart';
-
 @dao
 abstract class CharpterDao {
   @Query('SELECT * FROM charpters')

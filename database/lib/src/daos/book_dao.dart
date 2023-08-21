@@ -1,7 +1,5 @@
 import 'package:database/database.dart';
 
-import '../models/book_model.dart';
-
 @dao
 abstract class BookDao {
   @Query('SELECT * FROM books')

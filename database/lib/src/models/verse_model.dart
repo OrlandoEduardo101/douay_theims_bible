@@ -1,6 +1,4 @@
 import 'package:database/database.dart';
-import 'package:database/src/models/book_model.dart';
-import 'package:database/src/models/charpter_model.dart';
 
 @Entity(
   tableName: 'verses',

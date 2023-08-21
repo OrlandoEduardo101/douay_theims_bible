@@ -1,5 +1,4 @@
 import 'package:database/database.dart';
-import 'package:database/src/models/book_model.dart';
 
 @Entity(
   tableName: 'charpters',
